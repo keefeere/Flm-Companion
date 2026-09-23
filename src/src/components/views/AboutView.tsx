@@ -16,7 +16,7 @@ import { UpdateService } from "../../services/update";
 
 const APP_REPO_NAME = import.meta.env.VITE_GIT_PROJECT_COMPANION || "julienM77/flm-companion";
 const FLM_REPO_NAME = import.meta.env.VITE_GIT_PROJECT_FLM || "FastFlowLM/FastFlowLM";
-const APP_REPO_URL = import.meta.env.VITE_GIT_PROJECT_COMPANION_URL || "https://github.com/keefeere/Flm-Companion";
+const APP_REPO_URL = `https://github.com/${APP_REPO_NAME}`;
 const FLM_REPO_URL = `https://github.com/${FLM_REPO_NAME}`;
 const ORIGINAL_AUTHOR_URL = "https://github.com/julienM77";
 const LINUX_PORT_AUTHOR_URL = "https://github.com/keefeere";
