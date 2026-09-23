@@ -16,7 +16,7 @@ import { UpdateService } from "../../services/update";
 
 const APP_REPO_NAME = import.meta.env.VITE_GIT_PROJECT_COMPANION || "julienM77/flm-companion";
 const FLM_REPO_NAME = import.meta.env.VITE_GIT_PROJECT_FLM || "FastFlowLM/FastFlowLM";
-const APP_REPO_URL = `https://github.com/${APP_REPO_NAME}`;
+const APP_REPO_URL = import.meta.env.VITE_GIT_PROJECT_COMPANION_URL || "https://github.com/keefeere/Flm-Companion";
 const FLM_REPO_URL = `https://github.com/${FLM_REPO_NAME}`;
 const AMD_URL = import.meta.env.VITE_AMD_URL ?? 'https://ryzenai.docs.amd.com/en/latest/inst.html#install-npu-drivers';
 const COMPANION_EXE_NAME = import.meta.env.VITE_COMPANION_EXE || "flm-manager.exe";
