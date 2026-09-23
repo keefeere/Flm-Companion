@@ -56,6 +56,10 @@ jobs:
         working-directory: src/src-tauri
         run: cargo fmt --check
 
+      - name: Test Rust
+        working-directory: src/src-tauri
+        run: cargo test
+
       - name: Clippy (Rust linter)
         working-directory: src/src-tauri
         run: cargo clippy -- -D warnings
