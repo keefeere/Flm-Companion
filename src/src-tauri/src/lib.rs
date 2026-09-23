@@ -4,8 +4,33 @@ mod types;
 
 use tauri::Manager;
 
+#[cfg(target_os = "linux")]
+fn include_user_local_bin_in_path() {
+    let Some(home) = std::env::var_os("HOME") else {
+        return;
+    };
+
+    let local_bin = std::path::PathBuf::from(home).join(".local/bin");
+    let mut paths: Vec<_> = std::env::var_os("PATH")
+        .as_deref()
+        .map(std::env::split_paths)
+        .into_iter()
+        .flatten()
+        .collect();
+
+    if !paths.iter().any(|path| path == &local_bin) {
+        paths.insert(0, local_bin);
+        if let Ok(path) = std::env::join_paths(paths) {
+            std::env::set_var("PATH", path);
+        }
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    #[cfg(target_os = "linux")]
+    include_user_local_bin_in_path();
+
     tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
             if let Some(window) = app.get_webview_window("main") {
@@ -33,7 +58,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             commands::update_tray_menu,
             commands::get_npu_info,
-            commands::get_system_stats
+            commands::get_system_stats,
+            commands::get_hardware_info
         ])
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event {

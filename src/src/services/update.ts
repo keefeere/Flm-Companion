@@ -4,6 +4,7 @@ import { tempDir } from '@tauri-apps/api/path';
 import { openPath } from '@tauri-apps/plugin-opener';
 import { ReleaseInfo } from './github';
 import { FlmService } from './flm';
+import { type as osType } from '@tauri-apps/plugin-os';
 
 export interface UpdateCallbacks {
     onProgress?: (progress: number | null) => void;
@@ -32,9 +33,17 @@ export const UpdateService = {
             // Find the installer asset
             // For Companion: looks for files starting with "Flm.Companion" or "Flm Companion" and ending with .exe
             // For FLM: looks for the exact exeName or any .exe file
+            const platform = await osType();
+            const isCompanion = exeName.toLowerCase().includes('flm-manager') || exeName.toLowerCase().includes('companion');
             const asset = release.assets.find(a => {
                 if (a.name === exeName) return true; // Exact match
-                if (exeName.includes('flm-manager') || exeName.includes('companion')) {
+                if (platform === 'linux') {
+                    if (isCompanion) return a.name.toLowerCase().endsWith('.appimage');
+                    // FLM Linux packages are distribution-specific. Do not try
+                    // to open a Debian package on Fedora/Arch-based systems.
+                    return false;
+                }
+                if (isCompanion) {
                     // Companion installer: flexible matching
                     return (a.name.startsWith('Flm.Companion') || a.name.startsWith('Flm Companion')) && a.name.endsWith('.exe');
                 }
