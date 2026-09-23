@@ -127,6 +127,8 @@
     "version": "バージョン",
     "source_code": "ソースコード",
     "view_on_github": "GitHub で開く",
+    "original_author": "オリジナル作者",
+    "linux_port": "Linux 版",
     "hardware": "ハードウェア",
     "cpu": "プロセッサー",
     "ram": "RAM",

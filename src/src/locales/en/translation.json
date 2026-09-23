@@ -128,6 +128,8 @@
     "version": "Version",
     "source_code": "Source Code",
     "view_on_github": "View on GitHub",
+    "original_author": "Original Author",
+    "linux_port": "Linux Version",
     "hardware": "Hardware",
     "cpu": "Processor",
     "ram": "RAM Memory",

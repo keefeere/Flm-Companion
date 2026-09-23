@@ -125,6 +125,8 @@
     "version": "Version",
     "source_code": "Code Source",
     "view_on_github": "Voir sur GitHub",
+    "original_author": "Auteur original",
+    "linux_port": "Version Linux",
     "hardware": "Matériel",
     "cpu": "Processeur",
     "ram": "Mémoire RAM",
