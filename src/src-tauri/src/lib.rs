@@ -57,6 +57,8 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             commands::update_tray_menu,
+            commands::quit_app,
+            commands::configure_opencode,
             commands::get_npu_info,
             commands::get_system_stats,
             commands::get_hardware_info

@@ -16,6 +16,10 @@ export interface AppContextType {
     setTheme: (theme: Theme) => void;
     startMinimized: boolean;
     setStartMinimized: (value: boolean) => void;
+    startServerOnLaunch: boolean;
+    setStartServerOnLaunch: (value: boolean) => void;
+    stopServerOnExit: boolean;
+    setStopServerOnExit: (value: boolean) => void;
     flmPath: string;
     setFlmPath: (path: string) => void;
     isConfigLoaded: boolean;
@@ -190,6 +194,9 @@ export function AppProvider({ children }: AppProviderProps) {
         installedModels: models.runnableModels,
         initialServerOptions,
         isConfigLoaded: config.isConfigLoaded,
+        isFlmAvailable,
+        startServerOnLaunch: config.startServerOnLaunch,
+        stopServerOnExit: config.stopServerOnExit,
         onNavigateToLogs: () => setActiveTab("server"),
     });
 
@@ -204,6 +211,7 @@ export function AppProvider({ children }: AppProviderProps) {
         flmVersion: flmVersion,
         isFlmAvailable: isFlmAvailable,
         presetsConfig: presetsConfig,
+        theme: config.theme,
     });
 
     // Save config when external values change
@@ -220,6 +228,10 @@ export function AppProvider({ children }: AppProviderProps) {
         setTheme: config.setTheme,
         startMinimized: config.startMinimized,
         setStartMinimized: config.setStartMinimized,
+        startServerOnLaunch: config.startServerOnLaunch,
+        setStartServerOnLaunch: config.setStartServerOnLaunch,
+        stopServerOnExit: config.stopServerOnExit,
+        setStopServerOnExit: config.setStopServerOnExit,
         flmPath: config.flmPath,
         setFlmPath: config.setFlmPath,
         isConfigLoaded: config.isConfigLoaded,

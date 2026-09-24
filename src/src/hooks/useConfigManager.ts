@@ -10,6 +10,10 @@ interface UseConfigManagerReturn {
     setTheme: (theme: Theme) => void;
     startMinimized: boolean;
     setStartMinimized: (value: boolean) => void;
+    startServerOnLaunch: boolean;
+    setStartServerOnLaunch: (value: boolean) => void;
+    stopServerOnExit: boolean;
+    setStopServerOnExit: (value: boolean) => void;
     flmPath: string;
     setFlmPath: (path: string) => void;
     isConfigLoaded: boolean;
@@ -19,6 +23,8 @@ interface UseConfigManagerReturn {
 export function useConfigManager(): UseConfigManagerReturn {
     const [theme, setTheme] = useState<Theme>(DEFAULT_APP_CONFIG.theme);
     const [startMinimized, setStartMinimized] = useState<boolean>(DEFAULT_APP_CONFIG.startMinimized);
+    const [startServerOnLaunch, setStartServerOnLaunch] = useState<boolean>(DEFAULT_APP_CONFIG.startServerOnLaunch);
+    const [stopServerOnExit, setStopServerOnExit] = useState<boolean>(DEFAULT_APP_CONFIG.stopServerOnExit);
     const [flmPath, setFlmPath] = useState<string>(DEFAULT_APP_CONFIG.flmPath);
     const [isConfigLoaded, setIsConfigLoaded] = useState<boolean>(false);
 
@@ -30,6 +36,8 @@ export function useConfigManager(): UseConfigManagerReturn {
         ConfigService.loadConfig().then(async (config) => {
             setTheme(config.theme);
             setStartMinimized(config.startMinimized);
+            setStartServerOnLaunch(config.startServerOnLaunch);
+            setStopServerOnExit(config.stopServerOnExit);
 
             if (!config.startMinimized) {
                 const win = getCurrentWindow();
@@ -81,6 +89,8 @@ export function useConfigManager(): UseConfigManagerReturn {
             const config: AppConfig = {
                 theme,
                 startMinimized,
+                startServerOnLaunch,
+                stopServerOnExit,
                 flmPath,
                 lastSelectedModel: externalSelectedModel,
                 serverOptions: externalServerOptions,
@@ -91,7 +101,7 @@ export function useConfigManager(): UseConfigManagerReturn {
 
         const timeoutId = setTimeout(saveSettings, 500);
         return () => clearTimeout(timeoutId);
-    }, [theme, startMinimized, flmPath, externalSelectedModel, externalServerOptions, isConfigLoaded]);
+    }, [theme, startMinimized, startServerOnLaunch, stopServerOnExit, flmPath, externalSelectedModel, externalServerOptions, isConfigLoaded]);
 
     const saveExternalConfig = useCallback((selectedModel: string, serverOptions: ServerOptions) => {
         setExternalSelectedModel(selectedModel);
@@ -103,6 +113,10 @@ export function useConfigManager(): UseConfigManagerReturn {
         setTheme,
         startMinimized,
         setStartMinimized,
+        startServerOnLaunch,
+        setStartServerOnLaunch,
+        stopServerOnExit,
+        setStopServerOnExit,
         flmPath,
         setFlmPath,
         isConfigLoaded,
