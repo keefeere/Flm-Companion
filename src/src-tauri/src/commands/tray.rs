@@ -10,6 +10,7 @@ pub fn update_tray_menu(app: AppHandle, params: TrayMenuParams) {
 
     if let Ok(menu) = build_tray_menu(&app, &params, &icons) {
         if let Some(tray) = app.tray_by_id("main") {
+            let _ = tray.set_icon(Some(icons.tray.clone()));
             let _ = tray.set_menu(Some(menu));
         }
     }
