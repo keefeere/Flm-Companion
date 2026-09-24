@@ -26,10 +26,23 @@ fn include_user_local_bin_in_path() {
     }
 }
 
+#[cfg(target_os = "linux")]
+fn configure_webkit_runtime() {
+    // WebKitGTK can create a window without painting its webview on some
+    // Wayland/AMD combinations. Allow an explicit user override, otherwise
+    // use the reliable software-compositing path.
+    if std::env::var_os("WEBKIT_DISABLE_COMPOSITING_MODE").is_none() {
+        std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     #[cfg(target_os = "linux")]
-    include_user_local_bin_in_path();
+    {
+        include_user_local_bin_in_path();
+        configure_webkit_runtime();
+    }
 
     tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
