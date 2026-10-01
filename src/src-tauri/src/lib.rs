@@ -72,6 +72,7 @@ pub fn run() {
             commands::update_tray_menu,
             commands::quit_app,
             commands::configure_opencode,
+            commands::install_flm_linux,
             commands::get_npu_info,
             commands::get_system_stats,
             commands::get_hardware_info
