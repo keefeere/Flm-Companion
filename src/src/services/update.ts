@@ -5,6 +5,7 @@ import { openPath } from '@tauri-apps/plugin-opener';
 import { ReleaseInfo } from './github';
 import { FlmService } from './flm';
 import { type as osType } from '@tauri-apps/plugin-os';
+import { invoke } from '@tauri-apps/api/core';
 
 export interface UpdateCallbacks {
     onProgress?: (progress: number | null) => void;
@@ -39,9 +40,9 @@ export const UpdateService = {
                 if (a.name === exeName) return true; // Exact match
                 if (platform === 'linux') {
                     if (isCompanion) return a.name.toLowerCase().endsWith('.appimage');
-                    // FLM Linux packages are distribution-specific. Do not try
-                    // to open a Debian package on Fedora/Arch-based systems.
-                    return false;
+                    // The portable archive works on Fedora/Bazzite and does not
+                    // require a distribution package manager or root access.
+                    return a.name.toLowerCase().endsWith('_linux.tar.gz');
                 }
                 if (isCompanion) {
                     // Companion installer: flexible matching
@@ -93,6 +94,18 @@ export const UpdateService = {
             // Launch the installer
             const tempDirPath = await tempDir();
             const absolutePath = `${tempDirPath}${filename}`;
+
+            if (platform === 'linux' && !isCompanion) {
+                onInstalling?.();
+                await invoke('install_flm_linux', {
+                    archivePath: absolutePath,
+                    expectedVersion: release.tag_name
+                });
+                onProgress?.(null);
+                onSuccess?.();
+                return;
+            }
+
             await openPath(absolutePath);
 
             // Reset progress
