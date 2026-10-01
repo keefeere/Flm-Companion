@@ -1099,7 +1099,7 @@ dependencies = [
 
 [[package]]
 name = "flm-companion"
-version = "0.5.4"
+version = "0.5.5"
 dependencies = [
  "flate2",
  "serde",

@@ -69,7 +69,7 @@ export const UpdateAvailableDialog = ({ open, onOpenChange, onInstallComplete, c
                     setCompanionDownloadProgress(null);
                     setCompanionDownloadError(error === 'Installer not found in release assets'
                         ? t('startup.error_installer_not_found')
-                        : t('startup.error_download_install')
+                        : `${t('startup.error_download_install')}: ${error}`
                     );
                 }
             },
@@ -110,7 +110,7 @@ export const UpdateAvailableDialog = ({ open, onOpenChange, onInstallComplete, c
                     setFlmDownloadProgress(null);
                     setFlmDownloadError(error === 'Installer not found in release assets'
                         ? t('startup.error_installer_not_found')
-                        : t('startup.error_download_install')
+                        : `${t('startup.error_download_install')}: ${error}`
                     );
                 }
             },
