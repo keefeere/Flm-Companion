@@ -1,6 +1,6 @@
 import { fetch } from '@tauri-apps/plugin-http';
 import { writeFile, BaseDirectory } from '@tauri-apps/plugin-fs';
-import { tempDir } from '@tauri-apps/api/path';
+import { join, tempDir } from '@tauri-apps/api/path';
 import { openPath } from '@tauri-apps/plugin-opener';
 import { ReleaseInfo } from './github';
 import { FlmService } from './flm';
@@ -93,7 +93,7 @@ export const UpdateService = {
 
             // Launch the installer
             const tempDirPath = await tempDir();
-            const absolutePath = `${tempDirPath}${filename}`;
+            const absolutePath = await join(tempDirPath, filename);
 
             if (platform === 'linux' && !isCompanion) {
                 onInstalling?.();

@@ -144,7 +144,7 @@ export const AboutView = ({ hardwareInfo, onRefreshHardware }: AboutViewProps) =
                     setCompanionDownloadProgress(null);
                     setCompanionUpdateError(error === 'Installer not found in release assets'
                         ? t('about.error_installer_not_found')
-                        : t('about.error_download_install')
+                        : `${t('about.error_download_install')}: ${error}`
                     );
                 }
             },
@@ -207,7 +207,7 @@ export const AboutView = ({ hardwareInfo, onRefreshHardware }: AboutViewProps) =
                     setDownloadProgress(null);
                     setFlmUpdateError(error === 'Installer not found in release assets'
                         ? t('about.error_installer_not_found')
-                        : t('about.error_download_install')
+                        : `${t('about.error_download_install')}: ${error}`
                     );
                 }
             },
