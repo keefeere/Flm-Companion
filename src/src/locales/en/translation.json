@@ -43,6 +43,8 @@
     "enable_preemption": "Preemption",
     "enable_preemption_desc": "Allows the server to interrupt an ongoing request to process a higher priority one.",
     "start_server": "Start Server",
+    "start_without_model": "Start without model",
+    "start_without_model_desc": "Start FLM in audio-only mode without loading a language model.",
     "starting": "Starting...",
     "stop_server": "Stop Server",
     "logs_title": "Server Logs",

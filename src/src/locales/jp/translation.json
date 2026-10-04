@@ -42,6 +42,8 @@
     "enable_preemption": "割り込み処理",
     "enable_preemption_desc": "高優先度リクエストを処理するために実行中の処理を割り込みます",
     "start_server": "サーバーを起動",
+    "start_without_model": "モデルなしで起動",
+    "start_without_model_desc": "言語モデルを読み込まず、音声モードのみで FLM を起動します。",
     "starting": "起動中…",
     "stop_server": "サーバーを停止",
     "logs_title": "サーバーログ",

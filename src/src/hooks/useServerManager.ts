@@ -26,7 +26,7 @@ interface UseServerManagerReturn {
     logs: string[];
     serverOptions: ServerOptions;
     setServerOptions: (options: ServerOptions | ((prev: ServerOptions) => ServerOptions)) => void;
-    handleToggleServer: (options?: ServerOptions) => Promise<void>;
+    handleToggleServer: (options?: ServerOptions, modelOverride?: string) => Promise<void>;
     addLog: (log: string) => void;
     clearLogs: () => void;
 }
@@ -116,7 +116,7 @@ export function useServerManager({
     }, []);
 
     const handleToggleServer = useCallback(
-        async (options?: ServerOptions) => {
+        async (options?: ServerOptions, modelOverride?: string) => {
             if (serverStatusRef.current === "running") {
                 intentionalStopRef.current = true;
                 try {
@@ -130,7 +130,7 @@ export function useServerManager({
                 setLogs([]);
 
                 // Get actual model name (extract from preset if needed)
-                let actualModel = selectedModelRef.current;
+                let actualModel = modelOverride ?? selectedModelRef.current;
                 if (isPresetId(actualModel)) {
                     const preset = findPresetById(actualModel, DEFAULT_PRESETS_CONFIG);
                     actualModel = preset?.model || "";

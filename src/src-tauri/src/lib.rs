@@ -75,7 +75,9 @@ pub fn run() {
             commands::install_flm_linux,
             commands::get_npu_info,
             commands::get_system_stats,
-            commands::get_hardware_info
+            commands::get_hardware_info,
+            commands::load_app_config,
+            commands::save_app_config
         ])
         .on_window_event(|window, event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event {
