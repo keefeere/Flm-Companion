@@ -83,6 +83,7 @@ export function AppProvider({ children }: AppProviderProps) {
     const [activeTab, setActiveTab] = useState("models");
     const [initialServerOptions, setInitialServerOptions] = useState<ServerOptions>({});
     const [initialSelectedModel, setInitialSelectedModel] = useState<string>("");
+    const [startupConfigLoaded, setStartupConfigLoaded] = useState(false);
     const [flmVersion, setFlmVersion] = useState<string>("");
     const [startupChecks, setStartupChecks] = useState<StartupCheckResult | null>(null);
     const [isCheckingStartup, setIsCheckingStartup] = useState(false);
@@ -176,6 +177,7 @@ export function AppProvider({ children }: AppProviderProps) {
             ConfigService.loadConfig().then((loadedConfig) => {
                 setInitialServerOptions(loadedConfig.serverOptions || {});
                 setInitialSelectedModel(loadedConfig.lastSelectedModel || "");
+                setStartupConfigLoaded(true);
             });
         }
     }, [config.isConfigLoaded]);
@@ -194,6 +196,7 @@ export function AppProvider({ children }: AppProviderProps) {
         installedModels: models.runnableModels,
         initialServerOptions,
         isConfigLoaded: config.isConfigLoaded,
+        startupConfigLoaded,
         isFlmAvailable,
         startServerOnLaunch: config.startServerOnLaunch,
         stopServerOnExit: config.stopServerOnExit,

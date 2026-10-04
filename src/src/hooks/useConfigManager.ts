@@ -31,6 +31,23 @@ export function useConfigManager(): UseConfigManagerReturn {
     const [externalSelectedModel, setExternalSelectedModel] = useState<string>("");
     const [externalServerOptions, setExternalServerOptions] = useState<ServerOptions>({});
 
+    // Persist launch preferences immediately as well as through the normal
+    // config save. This avoids losing a switch change if the app exits before
+    // the debounced save below runs.
+    const persistLaunchPreference = useCallback((patch: Partial<AppConfig>) => {
+        void ConfigService.updateConfig(patch).catch((error) => {
+            console.error("Failed to save launch preference:", error);
+        });
+    }, []);
+    const updateStartMinimized = useCallback((value: boolean) => {
+        setStartMinimized(value);
+        persistLaunchPreference({ startMinimized: value });
+    }, [persistLaunchPreference]);
+    const updateStartServerOnLaunch = useCallback((value: boolean) => {
+        setStartServerOnLaunch(value);
+        persistLaunchPreference({ startServerOnLaunch: value });
+    }, [persistLaunchPreference]);
+
     // Load config on startup
     useEffect(() => {
         ConfigService.loadConfig().then(async (config) => {
@@ -39,8 +56,10 @@ export function useConfigManager(): UseConfigManagerReturn {
             setStartServerOnLaunch(config.startServerOnLaunch);
             setStopServerOnExit(config.stopServerOnExit);
 
-            if (!config.startMinimized) {
-                const win = getCurrentWindow();
+            const win = getCurrentWindow();
+            if (config.startMinimized) {
+                await win.hide();
+            } else {
                 await win.unminimize();
                 await win.show();
                 await win.setFocus();
@@ -99,7 +118,9 @@ export function useConfigManager(): UseConfigManagerReturn {
             await ConfigService.saveConfig(config);
         };
 
-        const timeoutId = setTimeout(saveSettings, 500);
+        const timeoutId = setTimeout(() => {
+            void saveSettings().catch((error) => console.error("Failed to save settings:", error));
+        }, 500);
         return () => clearTimeout(timeoutId);
     }, [theme, startMinimized, startServerOnLaunch, stopServerOnExit, flmPath, externalSelectedModel, externalServerOptions, isConfigLoaded]);
 
@@ -112,9 +133,9 @@ export function useConfigManager(): UseConfigManagerReturn {
         theme,
         setTheme,
         startMinimized,
-        setStartMinimized,
+        setStartMinimized: updateStartMinimized,
         startServerOnLaunch,
-        setStartServerOnLaunch,
+        setStartServerOnLaunch: updateStartServerOnLaunch,
         stopServerOnExit,
         setStopServerOnExit,
         flmPath,

@@ -61,7 +61,13 @@ export const ConfigService = {
             });
         } catch (error) {
             console.error("Failed to save config:", error);
+            throw error;
         }
+    },
+
+    async updateConfig(patch: Partial<AppConfig>): Promise<void> {
+        const config = await this.loadConfig();
+        await this.saveConfig({ ...config, ...patch });
     },
 
     async getPresetsConfig(): Promise<PresetsConfig> {

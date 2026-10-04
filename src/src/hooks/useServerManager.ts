@@ -14,6 +14,7 @@ interface UseServerManagerProps {
     installedModels: FlmModel[];
     initialServerOptions: ServerOptions;
     isConfigLoaded: boolean;
+    startupConfigLoaded: boolean;
     isFlmAvailable: boolean;
     startServerOnLaunch: boolean;
     stopServerOnExit: boolean;
@@ -36,6 +37,7 @@ export function useServerManager({
     installedModels,
     initialServerOptions,
     isConfigLoaded,
+    startupConfigLoaded,
     isFlmAvailable,
     startServerOnLaunch,
     stopServerOnExit,
@@ -190,7 +192,7 @@ export function useServerManager({
     // Honor the launch preference once, after config, FLM checks, and the
     // last selected model have had a chance to load.
     useEffect(() => {
-        if (!isConfigLoaded || startupPreferenceHandledRef.current) return;
+        if (!isConfigLoaded || !startupConfigLoaded || startupPreferenceHandledRef.current) return;
 
         if (!startServerOnLaunch) {
             startupPreferenceHandledRef.current = true;
@@ -198,11 +200,11 @@ export function useServerManager({
         }
 
         if (!isFlmAvailable || serverStatusRef.current !== "stopped") return;
-        if (!selectedModelRef.current && !serverOptionsRef.current.asr) return;
+        if (!selectedModelRef.current && !initialServerOptions.asr) return;
 
         startupPreferenceHandledRef.current = true;
-        void handleToggleServer();
-    }, [isConfigLoaded, isFlmAvailable, startServerOnLaunch, selectedModel, handleToggleServer]);
+        void handleToggleServer({ ...DEFAULT_SERVER_OPTIONS, ...initialServerOptions });
+    }, [isConfigLoaded, startupConfigLoaded, isFlmAvailable, startServerOnLaunch, selectedModel, initialServerOptions, handleToggleServer]);
 
     // Handle pending restart after server stops
     useEffect(() => {
