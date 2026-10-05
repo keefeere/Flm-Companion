@@ -207,15 +207,13 @@ export function useServerManager({
         const startupOptions = { ...DEFAULT_SERVER_OPTIONS, ...initialServerOptions };
         let modelOverride: string | undefined;
         if (!startupModel) {
-            // No saved model means launch the supported audio-only mode,
-            // rather than silently skipping the user's explicit autostart.
-            startupOptions.asr = true;
+            // Start an empty server; FLM can load a model later via its API.
+            startupOptions.asr = false;
             modelOverride = "";
-            setSelectedModel("preset:audio-only");
         }
         startupPreferenceHandledRef.current = true;
         void handleToggleServer(startupOptions, modelOverride);
-    }, [isConfigLoaded, startupConfigLoaded, isFlmAvailable, startServerOnLaunch, selectedModel, initialSelectedModel, initialServerOptions, handleToggleServer, setSelectedModel]);
+    }, [isConfigLoaded, startupConfigLoaded, isFlmAvailable, startServerOnLaunch, selectedModel, initialSelectedModel, initialServerOptions, handleToggleServer]);
 
     // Handle pending restart after server stops
     useEffect(() => {

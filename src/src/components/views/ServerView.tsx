@@ -114,8 +114,7 @@ export const ServerView = ({
                             <Button
                                 variant="outline"
                                 onClick={() => {
-                                    onSelectModel("preset:audio-only");
-                                    onToggleServer({ ...options, asr: true }, "");
+                                    onToggleServer({ ...options, asr: false }, "");
                                 }}
                                 size="sm"
                                 title={t('server.start_without_model_desc')}
