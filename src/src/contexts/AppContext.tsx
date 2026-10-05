@@ -194,6 +194,7 @@ export function AppProvider({ children }: AppProviderProps) {
         selectedModel: models.selectedModel,
         setSelectedModel: models.setSelectedModel,
         installedModels: models.runnableModels,
+        initialSelectedModel,
         initialServerOptions,
         isConfigLoaded: config.isConfigLoaded,
         startupConfigLoaded,

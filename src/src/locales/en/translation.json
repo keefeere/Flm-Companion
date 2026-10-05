@@ -117,7 +117,7 @@
     "autostart": "Launch at Startup",
     "autostart_desc": "Automatically launch the application when you log in.",
     "start_server_on_launch": "Start Server with App",
-    "start_server_on_launch_desc": "Start FLM automatically using the last selected model when the app launches.",
+    "start_server_on_launch_desc": "Start with the last selected model, or audio-only mode if none is selected.",
     "stop_server_on_exit": "Stop Server on Exit",
     "stop_server_on_exit_desc": "Stop the managed FLM process before quitting the application.",
     "theme": "Theme",

@@ -114,7 +114,7 @@
     "autostart": "Lancer au démarrage",
     "autostart_desc": "Lancer automatiquement l'application à l'ouverture de session.",
     "start_server_on_launch": "Démarrer le serveur avec l'application",
-    "start_server_on_launch_desc": "Démarrer automatiquement FLM avec le dernier modèle sélectionné.",
+    "start_server_on_launch_desc": "Démarrer avec le dernier modèle sélectionné, ou en mode audio uniquement si aucun modèle n'est choisi.",
     "stop_server_on_exit": "Arrêter le serveur à la fermeture",
     "stop_server_on_exit_desc": "Arrêter le processus FLM géré avant de quitter l'application.",
     "theme": "Thème de l'interface",

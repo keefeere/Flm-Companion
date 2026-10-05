@@ -116,7 +116,7 @@
     "autostart": "スタートアップ起動",
     "autostart_desc": "ログイン時に自動的にアプリケーションを起動します",
     "start_server_on_launch": "アプリ起動時にサーバーを開始",
-    "start_server_on_launch_desc": "最後に選択したモデルで FLM を自動的に開始します",
+    "start_server_on_launch_desc": "最後に選択したモデルで起動し、モデル未選択の場合は音声モードのみで起動します",
     "stop_server_on_exit": "終了時にサーバーを停止",
     "stop_server_on_exit_desc": "アプリを終了する前に管理中の FLM プロセスを停止します",
     "theme": "テーマ",

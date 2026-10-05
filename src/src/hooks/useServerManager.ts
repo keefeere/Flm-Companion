@@ -12,6 +12,7 @@ interface UseServerManagerProps {
     selectedModel: string;
     setSelectedModel: (model: string) => void;
     installedModels: FlmModel[];
+    initialSelectedModel: string;
     initialServerOptions: ServerOptions;
     isConfigLoaded: boolean;
     startupConfigLoaded: boolean;
@@ -35,6 +36,7 @@ export function useServerManager({
     selectedModel,
     setSelectedModel,
     installedModels,
+    initialSelectedModel,
     initialServerOptions,
     isConfigLoaded,
     startupConfigLoaded,
@@ -200,11 +202,20 @@ export function useServerManager({
         }
 
         if (!isFlmAvailable || serverStatusRef.current !== "stopped") return;
-        if (!selectedModelRef.current && !initialServerOptions.asr) return;
 
+        const startupModel = selectedModelRef.current || initialSelectedModel;
+        const startupOptions = { ...DEFAULT_SERVER_OPTIONS, ...initialServerOptions };
+        let modelOverride: string | undefined;
+        if (!startupModel) {
+            // No saved model means launch the supported audio-only mode,
+            // rather than silently skipping the user's explicit autostart.
+            startupOptions.asr = true;
+            modelOverride = "";
+            setSelectedModel("preset:audio-only");
+        }
         startupPreferenceHandledRef.current = true;
-        void handleToggleServer({ ...DEFAULT_SERVER_OPTIONS, ...initialServerOptions });
-    }, [isConfigLoaded, startupConfigLoaded, isFlmAvailable, startServerOnLaunch, selectedModel, initialServerOptions, handleToggleServer]);
+        void handleToggleServer(startupOptions, modelOverride);
+    }, [isConfigLoaded, startupConfigLoaded, isFlmAvailable, startServerOnLaunch, selectedModel, initialSelectedModel, initialServerOptions, handleToggleServer, setSelectedModel]);
 
     // Handle pending restart after server stops
     useEffect(() => {
